@@ -1451,6 +1451,7 @@ add_library(
   src/library/library.cpp
   src/library/librarycontrol.cpp
   src/library/libraryfeature.cpp
+  src/library/libraryscrollbenchmark.cpp
   src/library/librarytablemodel.cpp
   src/library/missing_hidden/dlghidden.cpp
   src/library/missing_hidden/dlghidden.ui

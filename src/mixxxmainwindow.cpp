@@ -38,6 +38,7 @@
 #include "library/export/libraryexporter.h"
 #endif
 #include "library/library_prefs.h"
+#include "library/libraryscrollbenchmark.h"
 #include "library/trackcollectionmanager.h"
 #include "mixer/playerinfo.h"
 #include "mixer/playermanager.h"
@@ -444,6 +445,8 @@ void MixxxMainWindow::initialize() {
         // AutoDj is second from the top by default, all features collapsed).
         pLibrary->showAutoDJ();
     }
+
+    mixxx::startLibraryScrollBenchmarkIfRequested(this);
 }
 
 MixxxMainWindow::~MixxxMainWindow() {
