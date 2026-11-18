@@ -239,7 +239,8 @@ bool WaveformRendererStem::preprocessInner() {
                 }
 
                 // Cast to float
-                float max = static_cast<float>(u8max) * allGain;
+                // allGain is already part of heightFactor.
+                float max = static_cast<float>(u8max);
 
                 // Apply the gains
                 if (layerIdx) {
