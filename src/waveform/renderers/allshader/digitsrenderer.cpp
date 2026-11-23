@@ -76,21 +76,15 @@ void allshader::DigitsRenderNode::updateTexture(rendergraph::Context* pContext,
         float fontPointSize,
         float maxHeight,
         qreal devicePixelRatio) {
-    if (fontPointSize == m_fontPointSize && maxHeight == m_maxHeight) {
+    if (fontPointSize == m_fontPointSize && maxHeight == m_maxHeight &&
+            devicePixelRatio == m_devicePixelRatio) {
         return;
     }
     if (maxHeight != m_maxHeight) {
         m_maxHeight = maxHeight;
-        m_adjustedFontPointSize = 0.f;
     }
-    if (m_fontPointSize != fontPointSize) {
-        m_fontPointSize = fontPointSize;
-        if (m_adjustedFontPointSize != 0.f && fontPointSize > m_adjustedFontPointSize) {
-            fontPointSize = m_adjustedFontPointSize;
-        } else {
-            m_adjustedFontPointSize = 0.f;
-        }
-    }
+    m_fontPointSize = fontPointSize;
+    m_devicePixelRatio = devicePixelRatio;
 
     float space;
 
@@ -136,15 +130,15 @@ void allshader::DigitsRenderNode::updateTexture(rendergraph::Context* pContext,
 
     const float y = maxTextHeight + space - 0.5f;
 
-    auto roundToFloatPixel = createFunctionRoundToPixel(static_cast<float>(devicePixelRatio));
+    auto roundToPixel = createFunctionRoundToPixel(devicePixelRatio);
 
     float totalTextWidth{};
     std::array<float, NUM_CHARS> xs;
     // determine x position and with of each of the chars in the texture image.
     for (int i = 0; i < NUM_CHARS; i++) {
         xs[i] = totalTextWidth;
-        float w = roundToFloatPixel(metrics.horizontalAdvance(indexToChar(i))) +
-                space + space + 1.0;
+        float w = static_cast<float>(roundToPixel(metrics.horizontalAdvance(indexToChar(i))) +
+                space + space + 1.0);
         totalTextWidth += w;
         m_width[i] = static_cast<float>(w);
     }
